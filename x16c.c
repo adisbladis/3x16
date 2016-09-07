@@ -23,20 +23,20 @@
 
 void x16c_hash(const char* input, char* output)
 {
-    sph_blake512_context     ctx_blake;
-    sph_bmw512_context       ctx_bmw;
-    sph_groestl512_context   ctx_groestl;
-    sph_skein512_context     ctx_skein;
-    sph_jh512_context        ctx_jh;
-    sph_keccak512_context    ctx_keccak;
-    sph_luffa512_context	ctx_luffa1;
-    sph_cubehash512_context	ctx_cubehash1;
-    sph_shavite512_context	ctx_shavite1;
-    sph_simd512_context		ctx_simd1;
-    sph_echo512_context		ctx_echo1;
-    sph_hamsi512_context	ctx_hamsi1;
-    sph_fugue512_context	ctx_fugue1;
-	sph_shabal512_context   ctx_shabal1;
+    sph_blake512_context    ctx_blake;
+    sph_bmw512_context      ctx_bmw;
+    sph_groestl512_context  ctx_groestl;
+    sph_skein512_context    ctx_skein;
+    sph_jh512_context       ctx_jh;
+    sph_keccak512_context   ctx_keccak;
+    sph_luffa512_context    ctx_luffa1;
+    sph_cubehash512_context ctx_cubehash1;
+    sph_shavite512_context  ctx_shavite1;
+    sph_simd512_context     ctx_simd1;
+    sph_echo512_context     ctx_echo1;
+    sph_hamsi512_context    ctx_hamsi1;
+    sph_fugue512_context    ctx_fugue1;
+    sph_shabal512_context   ctx_shabal1;
     sph_whirlpool_context   ctx_whirlpool1;
     sph_sha512_context      ctx_sha2;
 
@@ -70,23 +70,23 @@ void x16c_hash(const char* input, char* output)
     sph_keccak512_init(&ctx_keccak);
     sph_keccak512 (&ctx_keccak, input, 1024);
     sph_keccak512_close(&ctx_keccak, hash5);
-	
+
     sph_luffa512_init (&ctx_luffa1);
     sph_luffa512 (&ctx_luffa1, input, 1024);
     sph_luffa512_close (&ctx_luffa1, hash6);	
-	
+
     sph_cubehash512_init (&ctx_cubehash1); 
     sph_cubehash512 (&ctx_cubehash1, input, 1024);   
     sph_cubehash512_close(&ctx_cubehash1, hash7);  
-	
+
     sph_shavite512_init (&ctx_shavite1);
     sph_shavite512 (&ctx_shavite1, input, 1024);   
     sph_shavite512_close(&ctx_shavite1, hash8);  
-	
+
     sph_simd512_init (&ctx_simd1); 
     sph_simd512 (&ctx_simd1, input, 1024);   
     sph_simd512_close(&ctx_simd1, hash9); 
-	
+
     sph_echo512_init (&ctx_echo1); 
     sph_echo512 (&ctx_echo1, input, 1024);   
     sph_echo512_close(&ctx_echo1, hashA); 
@@ -113,12 +113,12 @@ void x16c_hash(const char* input, char* output)
 
     int i;
     for (i = 0; i < 16; i += 1){
-    	hash[16*i+0] = hash0[i]; hash[16*i+1] = hash1[i]; hash[16*i+2] = hash2[i]; hash[16*i+3] = hash3[i];
-    	hash[16*i+4] = hash4[i]; hash[16*i+5] = hash5[i]; hash[16*i+6] = hash6[i]; hash[16*i+7] = hash7[i];
-    	hash[16*i+8] = hash8[i]; hash[16*i+9] = hash9[i]; hash[16*i+10] = hashA[i]; hash[16*i+11] = hashB[i];
-    	hash[16*i+12] = hashC[i]; hash[16*i+13] = hashD[i]; hash[16*i+14] = hashE[i]; hash[16*i+15] = hashF[i];
+        hash[16*i+0] = hash0[i]; hash[16*i+1] = hash1[i]; hash[16*i+2] = hash2[i]; hash[16*i+3] = hash3[i];
+        hash[16*i+4] = hash4[i]; hash[16*i+5] = hash5[i]; hash[16*i+6] = hash6[i]; hash[16*i+7] = hash7[i];
+        hash[16*i+8] = hash8[i]; hash[16*i+9] = hash9[i]; hash[16*i+10] = hashA[i]; hash[16*i+11] = hashB[i];
+        hash[16*i+12] = hashC[i]; hash[16*i+13] = hashD[i]; hash[16*i+14] = hashE[i]; hash[16*i+15] = hashF[i];
     }
 
     memcpy(output, hash, 1024);
-	
+
 }

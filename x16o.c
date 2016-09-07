@@ -23,20 +23,20 @@
 
 void x16o_hash(const char* input, char* output)
 {
-    sph_blake512_context     ctx_blake;
-    sph_bmw512_context       ctx_bmw;
-    sph_groestl512_context   ctx_groestl;
-    sph_skein512_context     ctx_skein;
-    sph_jh512_context        ctx_jh;
-    sph_keccak512_context    ctx_keccak;
-    sph_luffa512_context	ctx_luffa1;
-    sph_cubehash512_context	ctx_cubehash1;
-    sph_shavite512_context	ctx_shavite1;
-    sph_simd512_context		ctx_simd1;
-    sph_echo512_context		ctx_echo1;
-    sph_hamsi512_context	ctx_hamsi1;
-    sph_fugue512_context	ctx_fugue1;
-	sph_shabal512_context   ctx_shabal1;
+    sph_blake512_context    ctx_blake;
+    sph_bmw512_context      ctx_bmw;
+    sph_groestl512_context  ctx_groestl;
+    sph_skein512_context    ctx_skein;
+    sph_jh512_context       ctx_jh;
+    sph_keccak512_context   ctx_keccak;
+    sph_luffa512_context    ctx_luffa1;
+    sph_cubehash512_context ctx_cubehash1;
+    sph_shavite512_context  ctx_shavite1;
+    sph_simd512_context     ctx_simd1;
+    sph_echo512_context     ctx_echo1;
+    sph_hamsi512_context    ctx_hamsi1;
+    sph_fugue512_context    ctx_fugue1;
+    sph_shabal512_context   ctx_shabal1;
     sph_whirlpool_context   ctx_whirlpool1;
     sph_sha512_context      ctx_sha2;
 
@@ -66,23 +66,23 @@ void x16o_hash(const char* input, char* output)
     sph_keccak512_init(&ctx_keccak);
     sph_keccak512 (&ctx_keccak, hashA, 64);
     sph_keccak512_close(&ctx_keccak, hashB);
-	
+
     sph_luffa512_init (&ctx_luffa1);
     sph_luffa512 (&ctx_luffa1, hashB, 64);
     sph_luffa512_close (&ctx_luffa1, hashA);	
-	
+
     sph_cubehash512_init (&ctx_cubehash1); 
     sph_cubehash512 (&ctx_cubehash1, hashA, 64);   
     sph_cubehash512_close(&ctx_cubehash1, hashB);  
-	
+
     sph_shavite512_init (&ctx_shavite1);
     sph_shavite512 (&ctx_shavite1, hashB, 64);   
     sph_shavite512_close(&ctx_shavite1, hashA);  
-	
+
     sph_simd512_init (&ctx_simd1); 
     sph_simd512 (&ctx_simd1, hashA, 64);   
     sph_simd512_close(&ctx_simd1, hashB); 
-	
+
     sph_echo512_init (&ctx_echo1); 
     sph_echo512 (&ctx_echo1, hashB, 64);   
     sph_echo512_close(&ctx_echo1, hashA); 
@@ -108,5 +108,5 @@ void x16o_hash(const char* input, char* output)
     sph_sha512_close(&ctx_sha2, hashB);
 
     memcpy(output, hashA, 64);
-	
+
 }

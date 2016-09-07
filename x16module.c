@@ -4,7 +4,7 @@
 #include "x16r.h"
 #include "x16c.h"
 
-static PyObject *x16o_getpowhash(PyObject *self, PyObject *args)
+static PyObject *hash_func(void (*func)(const char*, char*), PyObject *self, PyObject *args, const unsigned int buf_size)
 {
     char *output;
     PyObject *value;
@@ -16,79 +16,36 @@ static PyObject *x16o_getpowhash(PyObject *self, PyObject *args)
     if (!PyArg_ParseTuple(args, "S", &input))
         return NULL;
     Py_INCREF(input);
-    output = PyMem_Malloc(64);
+    output = PyMem_Malloc(buf_size);
 
 #if PY_MAJOR_VERSION >= 3
-    x16o_hash((char *)PyBytes_AsString((PyObject*) input), output);
+    func((char *)PyBytes_AsString((PyObject*) input), output);
 #else
-    x16o_hash((char *)PyString_AsString((PyObject*) input), output);
+    func((char *)PyString_AsString((PyObject*) input), output);
 #endif
     Py_DECREF(input);
 #if PY_MAJOR_VERSION >= 3
-    value = Py_BuildValue("y#", output, 64);
+    value = Py_BuildValue("y#", output, buf_size);
 #else
-    value = Py_BuildValue("s#", output, 64);
+    value = Py_BuildValue("s#", output, buf_size);
 #endif
     PyMem_Free(output);
     return value;
+}
+
+static PyObject *x16o_getpowhash(PyObject *self, PyObject *args)
+{
+  return hash_func(x16o_hash, self, args, 64);
 }
 
 static PyObject *x16r_getpowhash(PyObject *self, PyObject *args)
 {
-    char *output;
-    PyObject *value;
-#if PY_MAJOR_VERSION >= 3
-    PyBytesObject *input;
-#else
-    PyStringObject *input;
-#endif
-    if (!PyArg_ParseTuple(args, "S", &input))
-        return NULL;
-    Py_INCREF(input);
-    output = PyMem_Malloc(64);
-
-#if PY_MAJOR_VERSION >= 3
-    x16r_hash((char *)PyBytes_AsString((PyObject*) input), output);
-#else
-    x16r_hash((char *)PyString_AsString((PyObject*) input), output);
-#endif
-    Py_DECREF(input);
-#if PY_MAJOR_VERSION >= 3
-    value = Py_BuildValue("y#", output, 64);
-#else
-    value = Py_BuildValue("s#", output, 64);
-#endif
-    PyMem_Free(output);
-    return value;
+  return hash_func(x16r_hash, self, args, 64);
 }
 
 static PyObject *x16c_getpowhash(PyObject *self, PyObject *args)
 {
-    char *output;
-    PyObject *value;
-#if PY_MAJOR_VERSION >= 3
-    PyBytesObject *input;
-#else
-    PyStringObject *input;
-#endif
-    if (!PyArg_ParseTuple(args, "S", &input))
-        return NULL;
-    Py_INCREF(input);
-    output = PyMem_Malloc(1024);
-
-#if PY_MAJOR_VERSION >= 3
-    x16c_hash((char *)PyBytes_AsString((PyObject*) input), output);
-#else
-    x16c_hash((char *)PyString_AsString((PyObject*) input), output);
-#endif
-    Py_DECREF(input);
-#if PY_MAJOR_VERSION >= 3
-    value = Py_BuildValue("y#", output, 1024);
-#else
-    value = Py_BuildValue("s#", output, 1024);
-#endif
-    PyMem_Free(output);
-    return value;
+  return hash_func(x16c_hash, self, args, 1024);
 }
 
 static PyMethodDef X16Methods[] = {
